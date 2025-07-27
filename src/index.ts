@@ -394,5 +394,5 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }
 
-export { scrapeAllStores, formatResults, saveResults };
+export { scrapeAllStores, formatResults, saveResults, extractProductName, extractProductPrice, extractProductUrl };
 export type { Product, ScrapingResult };
