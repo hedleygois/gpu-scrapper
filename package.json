@@ -1,0 +1,38 @@
+{
+  "name": "store-scrapper",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "node --loader ts-node/esm src/index.ts",
+    "watch": "nodemon --exec ts-node src/index.ts",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "store",
+    "scrapper",
+    "typescript",
+    "node"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "A TypeScript-based store scrapping application",
+  "devDependencies": {
+    "@types/jsdom": "^21.1.7",
+    "@types/node": "^24.1.0",
+    "@types/node-fetch": "^2.6.12",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "jsdom": "^26.1.0",
+    "node-fetch": "^3.3.2",
+    "playwright": "^1.54.1"
+  }
+}
