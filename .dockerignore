@@ -1,0 +1,8 @@
+node_modules
+dist
+electronics_scrape_*.json
+*.log
+.git
+.gitignore
+src/**/*.test.ts
+src/**/*.spec.ts 

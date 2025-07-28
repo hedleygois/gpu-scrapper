@@ -1,0 +1,523 @@
+{
+  "products": [
+    {
+      "name": "XFX RX 7600XT SWFT210 Speedstar 16GB GDDR6 HDMI 3xDP",
+      "price": 369,
+      "url": "https://azerty.nl/product/xfx-rx-7600xt-swft210-speedstar-16gb-gddr6-hdmi-3xdp/6786906",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "OCZ Radeon R7 Series RADEON-R7SSD-480G - Solid state drive",
+      "price": 243.69,
+      "url": "https://azerty.nl/product/ocz-radeon-r7-series-radeon-r7ssd-480g-solid-state-drive/735069",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "AMD Radeon Pro WX 3200 - Videokaart",
+      "price": 152.95,
+      "url": "https://azerty.nl/product/amd-radeon-pro-wx-3200-videokaart/3973945",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Sapphire NITRO+ Radeon RX 7700 XT - Grafische kaart",
+      "price": 509,
+      "url": "https://azerty.nl/product/sapphire-nitro-radeon-rx-7700-xt-grafische-kaart/6135717",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Sapphire Pulse Radeon RX 7600 XT 16GB - Videokaart",
+      "price": 360.28,
+      "url": "https://azerty.nl/product/sapphire-pulse-radeon-rx-7600-xt-16gb-videokaart/6779535",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Sapphire PULSE Radeon RX 7900 XTX - Videokaart",
+      "price": 1073.45,
+      "url": "https://azerty.nl/product/sapphire-pulse-radeon-rx-7900-xtx-videokaart/5094491",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Radeon Pro WX 9100 - Grafische kaart",
+      "price": 2042.54,
+      "url": "https://azerty.nl/product/radeon-pro-wx-9100-grafische-kaart/3202445",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "AMD Radeon Pro W5700 - Grafische kaart",
+      "price": 1070,
+      "url": "https://azerty.nl/product/amd-radeon-pro-w5700-grafische-kaart/4084924",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "AMD Radeon Pro VII - Videokaart",
+      "price": 1524.9,
+      "url": "https://azerty.nl/product/amd-radeon-pro-vii-videokaart/4212064",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "AMD Radeon Pro W5500 - Videokaart",
+      "price": 456.03,
+      "url": "https://azerty.nl/product/amd-radeon-pro-w5500-videokaart/4140076",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "AMD Radeon Pro WX 2100 - Grafische kaart",
+      "price": 181.78,
+      "url": "https://azerty.nl/product/amd-radeon-pro-wx-2100-grafische-kaart/3511751",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "AMD Radeon Pro WX 9100 - Grafische kaart",
+      "price": 2787.99,
+      "url": "https://azerty.nl/product/amd-radeon-pro-wx-9100-grafische-kaart/3521218",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Powercolor Radeon RX9070XT Red Devil Special Edition OC 16GB",
+      "price": 814.89,
+      "url": "https://azerty.nl/product/powercolor-radeon-rx9070xt-red-devil-special-edition-oc-16gb/9413627",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "NB ACER TM P4 TMP414-42-TCO-R6KG 14 R5 W11P R5 8540U,16GD5,512SSD,Radeon 740M,WUXGA,Slate blue",
+      "price": 1086.99,
+      "url": "https://azerty.nl/product/nb-acer-tm-p4-tmp414-42-tco-r6kg-14-r5-w11p-r5-8540u-16gd5-512ssd-radeon-740m-wuxga-slate-blue/7885115",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Powercolor Radeon RX7600 Hellhound 8GB GDDR6 HDMI 3xDP",
+      "price": 285.38,
+      "url": "https://azerty.nl/product/powercolor-radeon-rx7600-hellhound-8gb-gddr6-hdmi-3xdp/6078646",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "NB ACER TM P2 TMP216-41-TCO-R1HS 16 R7 W11P Ryzen 7 7735U,16GD5,512SSD,Radeon 680M,WUXGA,Black",
+      "price": 1221.83,
+      "url": "https://azerty.nl/product/nb-acer-tm-p2-tmp216-41-tco-r1hs-16-r7-w11p-ryzen-7-7735u-16gd5-512ssd-radeon-680m-wuxga-black/8873459",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "NB ACER TM P2 TMP214-43-TCO-R8U3 14 R7 W11P R7 7735U,16GD5,512SSD,Radeon 680M,WUXGA,black",
+      "price": 1025.56,
+      "url": "https://azerty.nl/product/nb-acer-tm-p2-tmp214-43-tco-r8u3-14-r7-w11p-r7-7735u-16gd5-512ssd-radeon-680m-wuxga-black/7885105",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "NB ACER TM P4 TMP414-42-TCO-R1AM 14 R7 W11P R7 8840U,32GD5,1000SSDPCIe,Radeon,WUXGA,Slate blue",
+      "price": 1309.92,
+      "url": "https://azerty.nl/product/nb-acer-tm-p4-tmp414-42-tco-r1am-14-r7-w11p-r7-8840u-32gd5-1000ssdpcie-radeon-wuxga-slate-blue/7885116",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Gigabyte Radeon Pro W7900 AI TOP 48GB GDDR6 DP 3xMini DP",
+      "price": 3648.2,
+      "url": "https://azerty.nl/product/gigabyte-radeon-pro-w7900-ai-top-48gb-gddr6-dp-3xmini-dp/9163322",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Lenovo ThinkPad P16s AMD G2  R7-7840U 64GB/1TB Radeon 780M W11P",
+      "price": 1414.55,
+      "url": "https://azerty.nl/product/lenovo-thinkpad-p16s-amd-g2-r7-7840u-64gb-1tb-radeon-780m-w11p/9389215",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Socket AM4 / 8-Core/16-Threads / 20MB Cache / 65W TDP / Radeon Graphics",
+      "price": 191.16,
+      "url": "https://azerty.nl/product/socket-am4-8-core-16-threads-20mb-cache-65w-tdp-radeon-graphics/4913822",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "PM3606CKA-MB0134X / 16.0 WUXGA(WU) 1920X1200 16:10 300nits Anti-Glare NTSC:45% Wide View/ AI R7-350/ AMD Radeon Graphics/ WIN11 PRO QWERTY",
+      "price": 1167.04,
+      "url": "https://azerty.nl/product/pm3606cka-mb0134x-16-0-wuxga-wu-1920x1200-16-10-300nits-anti-glare-ntsc-45-wide-view-ai-r7-350-amd-radeon-graphics-win11-pro-qwerty/9397099",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ASROCK Radeon RX 7900 XTX Phantom Gaming 24GB OC - Videokaart",
+      "price": 950.65,
+      "url": "https://azerty.nl/product/asrock-radeon-rx-7900-xtx-phantom-gaming-24gb-oc-videokaart/5073612",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Gigabyte Radeon RX 5700 XT GAMING OC 8G - OC Edition",
+      "price": 720.52,
+      "url": "https://azerty.nl/product/gigabyte-radeon-rx-5700-xt-gaming-oc-8g-oc-edition/4726434",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "XFX RX 7900XTX Black Gaming MERC 310 - Videokaart",
+      "price": 919,
+      "url": "https://azerty.nl/product/xfx-rx-7900xtx-black-gaming-merc-310-videokaart/5089860",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "PNY GeForce RTX 5070 Ti Overclocked - Videokaart",
+      "price": 849,
+      "url": "https://azerty.nl/product/pny-geforce-rtxtm-5070ti-16gb-overclocked-triple-fan/9082343",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "MSI GeForce RTX 5070 Ti 16G GAMING TRIO OC Black - Videokaart",
+      "price": 969,
+      "url": "https://azerty.nl/product/msi-rtx5070ti-gaming-trio-oc-16gb-gddr-hdmi-3xdp/9294017",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ASUS Prime GeForce RTX 5070 Ti OC Edition - Videokaart",
+      "price": 989,
+      "url": "https://azerty.nl/product/asus-prime-geforce-rtx-5070-ti-oc-videokaart/9165550",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ASUS ROG Strix GeForce RTX 5070 Ti OC Edition - Videokaart",
+      "price": 1079,
+      "url": "https://azerty.nl/product/asus-rog-strix-geforce-rtx-5070-ti-oc-edition-grafische-kaart/9314272",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "MSI GeForce RTX 5070 Ti 16G GAMING TRIO OC White - Videokaart",
+      "price": 979,
+      "url": "https://azerty.nl/product/msi-5070ti-gaming-trio-oc-white-nvidia-geforce-rtx-5070-ti-gddr7/9374820",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "GIGABYTE GeForce RTX 5070 Ti GAMING OC - Videokaart",
+      "price": 969,
+      "url": "https://azerty.nl/product/gigabyte-geforce-rtx-5070-ti-gaming-oc-videokaart/9165487",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ASUS TUF Gaming GeForce RTX 5070 Ti OC Edition - Videokaart",
+      "price": 1039,
+      "url": "https://azerty.nl/product/asus-tuf-gaming-geforce-rtx-5070-ti-oc-edition-videokaart/9165560",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "INNO3D GeForce RTX 5070 Ti X3 - Videokaart",
+      "price": 799,
+      "url": "https://azerty.nl/product/inno3d-rtx5070ti-x3-16gb-gddr7-hdmi-3xdp/9201818",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "GIGABYTE GeForce RTX 5070 Ti EAGLE OC SFF - Videokaart",
+      "price": 949,
+      "url": "https://azerty.nl/product/gigabyte-geforce-rtx-5070-ti-eagle-oc-sff-videokaart/9165493",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "INNO3D GeForce RTX 5070 Ti X3 OC White - Videokaart",
+      "price": 859,
+      "url": "https://azerty.nl/product/inno3d-rtx5070ti-x3-oc-white-16gb-gddr7-hdmi-3xdp/9201820",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "INNO3D GeForce RTX 5070 Ti X3 OC - Videokaart",
+      "price": 885,
+      "url": "https://azerty.nl/product/inno3d-rtx5070ti-x3-oc-16gb-gddr7-hdmi-3xdp/9201819",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Palit GeForce RTX 5070 Ti GamingPro-S - Videokaart",
+      "price": 869,
+      "url": "https://azerty.nl/product/palit-rtx5070-ti-gamingpro-s-16gb-gddr7-hdmi-3xdp/9359419",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Zotac Gaming GeForce RTX 5070 Ti AMP Extreme Infinity - Videokaart",
+      "price": 979,
+      "url": "https://azerty.nl/product/zotac-gaming-geforce-rtx-5070-ti-amp-extreme-infinity-videokaart/9161672",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Gigabyte GeForce RTX 5070 Ti AERO OC 16G - Videokaart",
+      "price": 1039,
+      "url": "https://azerty.nl/product/gigabyte-rtx5070ti-aero-oc-16gb-gddr7-hdmi-3xdp/9201815",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Gigabyte GeForce RTX 5070 Ti EAGLE OC ICE SFF - Videokaart",
+      "price": 999,
+      "url": "https://azerty.nl/product/gigabyte-rtx5070ti-eagle-oc-ice-16gb-gddr7-hdmi-3xdp/9201817",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ASUS TUF Gaming GeForce RTX 5070 Ti 16GB GDDR7 White OC Edition - Videokaart",
+      "price": 1039,
+      "url": "https://azerty.nl/product/asus-tuf-gaming-geforce-rtx-5070-ti-16gb-gddr7-white-oc-edition-videokaart/9378230",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ZOTAC GeForce RTX 5070 Ti Solid SFF OC - Videokaart",
+      "price": 969,
+      "url": "https://azerty.nl/product/zotac-rtx-5070-ti-solid-sff-oc-16gb-gddr7-hdmi-3xdp/9305085",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ASUS TUF Gaming GeForce RTX 5070 Ti 16GB GDDR7 BTF White OC Edition - Videokaart",
+      "price": 1180,
+      "url": "https://azerty.nl/product/tuf-rtx5070ti-o16g-btf-white/9439143",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Palit GeForce RTX 5070 Ti GameRock OC - Videokaart",
+      "price": 961.11,
+      "url": "https://azerty.nl/product/palit-rtx5070ti-gamerock-oc-16gb-gddr7-hdmi-3xdp/9201825",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Palit GeForce RTX 5070 Ti GamingPro - Videokaart",
+      "price": 901.09,
+      "url": "https://azerty.nl/product/palit-rtx5070ti-gamingpro-16gb-gddr7-hdmi-3xdp/9201823",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Zotac Gaming GeForce RTX 5070 Ti SOLID CORE OC White Edition - Videokaart",
+      "price": 1040,
+      "url": "https://azerty.nl/product/zotac-gaming-rtx5070ti-solid-cre-oc-16gb/9325915",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ZOTAC GAMING GeForce RTX 5070 Ti SOLID CORE OC - Videokaart",
+      "price": 1029,
+      "url": "https://azerty.nl/product/zotac-gaming-rtx5070ti-solid-core-o-16gb/9218261",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "HP OMEN MAX 16-ah0025nd – Gaming Laptop – 16\" WQXGA OLED – Intel Core Ultra 9 275HX – 32GB DDR5 – 2TB SSD – NVIDIA GeForce RTX 5070 Ti – Windows 11 Home – Shadow Black",
+      "price": 2999,
+      "url": "https://azerty.nl/product/hp-omen-max-16-ah0025nd-gaming-laptop-16-wqxga-oled-intel-core-ultra-9-275hx-32gb-ddr5-2tb-ssd-nvidia-geforce-rtx-5070-ti-windows-11-home-shadow-black/9318605",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "GIGABYTE GeForce RTX 5080 GAMING OC 16G - Videokaart",
+      "price": 1339,
+      "url": "https://azerty.nl/product/gigabyte-geforce-rtx-5080-gaming-oc-16g-videokaart/9037813",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "PNY GeForce RTX 5080 Triple Fan - Videokaart",
+      "price": 1199.96,
+      "url": "https://azerty.nl/product/pny-rtx5080-verto-triple-fan-16gb-gddr7-hdmi-3xdp/9359426",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "MSI GeForce RTX 5080 16G GAMING TRIO OC - Videokaart",
+      "price": 1389,
+      "url": "https://azerty.nl/product/msi-geforce-rtx-5080-16g-gaming-trio-oc-videokaart/9028094",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ASUS ROG Astral GeForce RTX 5080 16GB GDDR7 WHITE OC Edition - Videokaart",
+      "price": 1749,
+      "url": "https://azerty.nl/product/rog-astral-rtx5080-o16g-white/9403450",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "GIGABYTE AORUS GeForce RTX 5080 XTREME WATERFORCE 16G - Videokaart",
+      "price": 1599,
+      "url": "https://azerty.nl/product/gigabyte-aorus-geforce-rtx-5080-xtreme-waterforce-16g-videokaart/9037807",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ASUS Prime GeForce RTX 5080 16GB GDDR7 OC Edition - Videokaart",
+      "price": 1349,
+      "url": "https://azerty.nl/product/asus-prime-geforce-rtx-5080-16gb-gddr7-oc-edition-videokaart/9032716",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "MSI GeForce RTX 5080 16G VENTUS 3X OC PLUS - Videokaart",
+      "price": 1249,
+      "url": "https://azerty.nl/product/msi-geforce-rtx-5080-16g-ventus-3x-oc-plus-videokaart/9028096",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Palit GeForce RTX 5080 GamingPro V1 - Videokaart",
+      "price": 1199,
+      "url": "https://azerty.nl/product/vga-palit-rtx5080-16gb-gamingpro-v1-gddr7-hdmi-3xdp/9343557",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "INNO3D GEFORCE RTX 5080 ICHILL X3 - Videokaart",
+      "price": 1249,
+      "url": "https://azerty.nl/product/inno3d-geforce-rtx-5080-ichill-x3-videokaart/9037782",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "INNO3D GEFORCE RTX 5080 ICHILL FROSTBITE - Videokaart",
+      "price": 1379,
+      "url": "https://azerty.nl/product/inno3d-geforce-rtx-5080-ichill-frostbite/9037781",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "INNO3D GEFORCE RTX 5080 X3 OC - Videokaart",
+      "price": 1179,
+      "url": "https://azerty.nl/product/inno3d-geforce-rtx-5080-x3-oc-videokaart/9037780",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ZOTAC GAMING GeForce RTX 5080 AMP Extreme INFINITY - Videokaart",
+      "price": 1399,
+      "url": "https://azerty.nl/product/zotac-gaming-geforce-rtx-5080-amp-extreme-infinity/9028027",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "MSI GeForce RTX 5080 16G GAMING TRIO OC WHITE - Videokaart",
+      "price": 1599,
+      "url": "https://azerty.nl/product/msi-geforce-rtx-5080-16g-gaming-trio-oc-white-videokaart/9028093",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "MSI GeForce RTX 5080 16G SUPRIM LIQUID SOC - Videokaart",
+      "price": 1579,
+      "url": "https://azerty.nl/product/msi-geforce-rtx-5080-16g-suprim-liquid-soc-videokaart/9028084",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "GIGABYTE GeForce RTX 5080 AERO OC SFF 16G - Videokaart",
+      "price": 1429,
+      "url": "https://azerty.nl/product/gigabyte-geforce-rtx-5080-aero-oc-sff-16g-videokaart/9037815",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "INNO3D GeForce RTX 5080 X3 - Videokaart",
+      "price": 1179,
+      "url": "https://azerty.nl/product/inno3d-geforce-rtx-5080-x3-videokaart/9037777",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "MSI GeForce RTX 5080 16G SUPRIM SOC - Videokaart",
+      "price": 1549,
+      "url": "https://azerty.nl/product/msi-geforce-rtx-5080-16g-suprim-soc-videokaart/9028079",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ZOTAC GAMING GeForce RTX 5080 SOLID CORE OC - Grafische Kaart",
+      "price": 1259.09,
+      "url": "https://azerty.nl/product/zotac-gaming-rtx5080-solid-core-oc-16gb/9218262",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "PNY GeForce RTX 5080 16GB Overclocked Triple Fan - Videokaart",
+      "price": 1499.38,
+      "url": "https://azerty.nl/product/pny-geforce-rtx-5080-16gb-overclocked-triple-fan/9029662",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ASUS ROG Astral GeForce RTX 5080 16GB GDDR7 OC Edition - Videokaart",
+      "price": 1649,
+      "url": "https://azerty.nl/product/asus-rog-astral-geforce-rtx-5080-16gb-gddr7-oc-edition-videokaart/9032714",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "PNY GeForce RTX 5080 16GB ARGB Overclocked Triple Fan - Videokaart",
+      "price": 1448.76,
+      "url": "https://azerty.nl/product/pny-geforce-rtx-5080-16gb-argb-overclocked-triple-fan/9029661",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "ZOTAC GAMING GeForce RTX 5080 AMP Extreme INFINITY ULTRA - Videokaart",
+      "price": 1399,
+      "url": "https://azerty.nl/product/zotac-gaming-rtx-5080-amp-ext-inf-u-16gb/9164655",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "HP OMEN MAX 16-ah0030nd – Gaming Laptop – 16\" 2.5K OLED 240Hz – Intel Core Ultra 9 275HX – NVIDIA GeForce RTX 5080 16GB – 32GB DDR5 – 2TB SSD – Wi-Fi 7 – RGB Toetsenbord – Shadow Black",
+      "price": 3399,
+      "url": "https://azerty.nl/product/hp-omen-max-16-ah0030nd-gaming-laptop-16-2-5k-oled-240hz-intel-core-ultra-9-275hx-nvidia-geforce-rtx-5080-16gb-32gb-ddr5-2tb-pcie-gen4-ssd-wi-fi-7-rgb-toetsenbord-shadow-black/9318613",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Azerty Combokit MSI 9950X3D - Combokit",
+      "price": 1195,
+      "url": "https://azerty.nl/product/azerty-combokit-msi-9950x3d-combokit/9302819",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Azerty Combokit Gigabyte 7800X3D - Combokit",
+      "price": 549,
+      "url": "https://azerty.nl/product/azerty-combokit-gigabyte-7800x3d-combokit/8610385",
+      "store": "Azerty",
+      "category": "GPU"
+    },
+    {
+      "name": "Azerty Combokit MSI 7800X3D - Combokit",
+      "price": 539,
+      "url": "https://azerty.nl/product/azerty-combokit-msi-7800x3d-combokit/8610380",
+      "store": "Azerty",
+      "category": "GPU"
+    }
+  ],
+  "errors": []
+}

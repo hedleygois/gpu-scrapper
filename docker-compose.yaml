@@ -1,0 +1,25 @@
+services:
+  scraper:
+    build: .
+    container_name: scraper
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    environment:
+      - NODE_ENV=production
+      - DB_PATH=/app/data/electronics.db
+    restart: unless-stopped
+    depends_on:
+      - sqlite3
+  sqlite3:
+    image: keinos/sqlite3
+    container_name: sqlite3-cli
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./data:/mnt/data         # Mount for database file
+      - ./init.sql:/init.sql     # Mount your init script
+    command: >
+      sh -c "sqlite3 /mnt/data/db.sqlite < /init.sql && tail -f /dev/null"

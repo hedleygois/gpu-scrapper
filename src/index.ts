@@ -1,9 +1,10 @@
 import fetch from "node-fetch";
 import { JSDOM } from "jsdom";
 import { chromium } from "playwright";
+import { saveProducts } from './database.js';
 
-// Types
-interface Product {
+
+export interface Item {
   name: string;
   price: number;
   url: string;
@@ -12,7 +13,7 @@ interface Product {
 }
 
 interface ScrapingResult {
-  products: Product[];
+  products: Item[];
   errors: string[];
 }
 
@@ -44,27 +45,27 @@ const GPU_KEYWORDS = [
 const CPU_KEYWORDS = ["ryzen 7", "ryzen 9", "ryzen 5"];
 
 const STORES = [
-  {
-    name: 'Megekko',
-    baseUrl: 'https://www.megekko.nl',
-    searchPath: '/zoeken',
-    searchParam: 'q',
-    requiresBrowser: true
-  },
-  {
-    name: 'Coolblue',
-    baseUrl: 'https://www.coolblue.nl',
-    searchPath: '/zoeken',
-    searchParam: 'query',
-    requiresBrowser: false
-  },
-  {
-    name: 'Alternate',
-    baseUrl: 'https://www.alternate.nl',
-    searchPath: '/listing.xhtml',
-    searchParam: 'q',
-    requiresBrowser: false
-  },
+  // {
+  //   name: 'Megekko',
+  //   baseUrl: 'https://www.megekko.nl',
+  //   searchPath: '/zoeken',
+  //   searchParam: 'q',
+  //   requiresBrowser: true
+  // },
+  // {
+  //   name: 'Coolblue',
+  //   baseUrl: 'https://www.coolblue.nl',
+  //   searchPath: '/zoeken',
+  //   searchParam: 'query',
+  //   requiresBrowser: false
+  // },
+  // {
+  //   name: 'Alternate',
+  //   baseUrl: 'https://www.alternate.nl',
+  //   searchPath: '/listing.xhtml',
+  //   searchParam: 'q',
+  //   requiresBrowser: false
+  // },
   {
     name: "Azerty",
     baseUrl: "https://azerty.nl",
@@ -90,7 +91,6 @@ const nameSelectors = [
 
 const priceSelectors = [".prsEuro", ".js-sales-price-wrapper", ".price"];
 
-// Utility functions
 const delay = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -104,11 +104,10 @@ const isCPU = (productName: string): boolean => {
   return CPU_KEYWORDS.some((keyword) => name.includes(keyword.toLowerCase()));
 };
 
-// Generic scraper function
 const scrapeStore = async (
   store: (typeof STORES)[0],
   searchTerm: string
-): Promise<Product[]> => {
+): Promise<Item[]> => {
   try {
     if (store.requiresBrowser) {
       return await scrapeStoreWithBrowser(store, searchTerm);
@@ -121,11 +120,11 @@ const scrapeStore = async (
   }
 };
 
-// Browser-based scraper for stores that require JavaScript interaction
+
 const scrapeStoreWithBrowser = async (
   store: (typeof STORES)[0],
   searchTerm: string
-): Promise<Product[]> => {
+): Promise<Item[]> => {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage();
 
@@ -157,11 +156,11 @@ const scrapeStoreWithBrowser = async (
   }
 };
 
-// Fetch-based scraper for stores that work with URL parameters
+
 const scrapeStoreWithFetch = async (
   store: (typeof STORES)[0],
   searchTerm: string
-): Promise<Product[]> => {
+): Promise<Item[]> => {
   const searchUrl = `${store.baseUrl}${store.searchPath}?${
     store.searchParam
   }=${encodeURIComponent(searchTerm)}`;
@@ -188,10 +187,9 @@ const scrapeStoreWithFetch = async (
 const extractProducts = (
   document: Document,
   store: (typeof STORES)[0]
-): Product[] => {
-  const products: Product[] = [];
+): Item[] => {
+  const products: Item[] = [];
 
-  // Try each product selector
   for (const productSelector of productSelectors) {
     const productElements = document.querySelectorAll(productSelector);
 
@@ -207,7 +205,7 @@ const extractProducts = (
           products.push(product);
         }
       });
-      break; // Use first working selector
+      break;
     }
   }
 
@@ -216,7 +214,6 @@ const extractProducts = (
   );
 };
 
-// Helper to extract product name (functional)
 function extractProductName(element: Element, nameSelectors: string[]): string {
   return (
     nameSelectors
@@ -225,7 +222,6 @@ function extractProductName(element: Element, nameSelectors: string[]): string {
   );
 }
 
-// Helper to extract product price (functional)
 function extractProductPrice(element: Element, priceSelectors: string[]): number {
   return (
     priceSelectors
@@ -245,7 +241,6 @@ function extractProductPrice(element: Element, priceSelectors: string[]): number
   );
 }
 
-// Helper to extract product URL (functional)
 function extractProductUrl(element: Element, store: (typeof STORES)[0]): string {
   const linkHref = [
     ...element.querySelectorAll("a[href]")
@@ -266,7 +261,7 @@ const extractSingleProduct = (
   store: (typeof STORES)[0],
   nameSelectors: string[],
   priceSelectors: string[]
-): Product | null => {
+): Item | null => {
   const name = extractProductName(element, nameSelectors);
   const price = extractProductPrice(element, priceSelectors);
   const url = extractProductUrl(element, store);
@@ -286,9 +281,8 @@ const extractSingleProduct = (
   };
 };
 
-// Main scraping orchestrator
 const scrapeAllStores = async (): Promise<ScrapingResult> => {
-  const products: Product[] = [];
+  const products: Item[] = [];
   const errors: string[] = [];
 
   for (const store of STORES) {
@@ -299,7 +293,6 @@ const scrapeAllStores = async (): Promise<ScrapingResult> => {
         const storeProducts = await scrapeStore(store, searchTerm);
         products.push(...storeProducts);
 
-        // Be respectful to servers
         await delay(1000);
       } catch (error) {
         const errorMsg = `Failed to scrape ${store.name} for "${searchTerm}": ${error}`;
@@ -308,11 +301,9 @@ const scrapeAllStores = async (): Promise<ScrapingResult> => {
       }
     }
 
-    // Longer delay between stores
     await delay(2000);
   }
 
-  // Remove duplicates based on name and store
   const uniqueProducts = products.filter(
     (product, index, self) =>
       index ===
@@ -327,13 +318,11 @@ const scrapeAllStores = async (): Promise<ScrapingResult> => {
   };
 };
 
-// Output formatting
 const formatResults = (result: ScrapingResult): void => {
   const { products, errors } = result;
 
   console.log("\n=== SCRAPING RESULTS ===\n");
 
-  // Group by category
   const gpus = products.filter((p) => p.category === "GPU");
   const cpus = products.filter((p) => p.category === "CPU");
 
@@ -365,34 +354,45 @@ const formatResults = (result: ScrapingResult): void => {
   }
 };
 
-// Export results to JSON
 const saveResults = async (result: ScrapingResult): Promise<void> => {
-  const fs = await import("fs").then((m) => m.promises);
-  const filename = `electronics_scrape_${
-    new Date().toISOString().split("T")[0]
-  }.json`;
-
+  // Save to database
+  saveProducts(result.products);
+  
+  // Also save to JSON file for backup
+  const fs = await import('fs').then(m => m.promises);
+  const filename = `electronics_scrape_${new Date().toISOString().split('T')[0]}.json`;
+  
   await fs.writeFile(filename, JSON.stringify(result, null, 2));
   console.log(`\n💾 Results saved to ${filename}`);
 };
 
 // Main execution
 const main = async (): Promise<void> => {
-  console.log("🚀 Starting Dutch electronics scraper...");
-  console.log("🎯 Searching for specified GPUs and CPUs with 3D cache...\n");
+  console.log('🚀 Starting Dutch electronics scraper...');
+  console.log('🎯 Searching for specified GPUs and CPUs with 3D cache...\n');
 
   const result = await scrapeAllStores();
-
+  
   formatResults(result);
   await saveResults(result);
-
-  console.log("✅ Scraping completed!");
+  
+  console.log('✅ Scraping completed!');
 };
 
-// Run if called directly
 if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }
 
-export { scrapeAllStores, formatResults, saveResults, extractProductName, extractProductPrice, extractProductUrl };
-export type { Product, ScrapingResult };
+export { 
+  scrapeAllStores, 
+  formatResults, 
+  saveResults, 
+  extractProductName, 
+  extractProductPrice, 
+  extractProductUrl, 
+  extractSingleProduct,
+  isGPU,
+  isCPU,
+  main 
+};
+export type { ScrapingResult };
