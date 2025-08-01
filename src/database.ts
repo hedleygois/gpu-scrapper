@@ -1,5 +1,5 @@
 import Database from 'better-sqlite3';
-import { Item } from './index.js';
+import { Item } from './types.js';
 
 const db = new Database('./data/db.sqlite');
 
