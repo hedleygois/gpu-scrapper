@@ -2,7 +2,8 @@ import { saveProducts } from './database.js';
 import { scrapeAllStores } from './scraping.js';
 import { STORES, SEARCH_TERMS } from './config/stores.js';
 import { AIStorageAgent } from './agents/ai-storage-agent.js';
-import { Item, ScrapingResult } from './types.js';
+import { ScrapingResult } from './types.js';
+import fs from 'fs/promises';
 
 const formatResults = (result: ScrapingResult): void => {
   const { products, errors } = result;
@@ -40,23 +41,26 @@ const formatResults = (result: ScrapingResult): void => {
   }
 };
 
+const createEnrichedData = (result: ScrapingResult, marketTrends?: any) => ({
+  ...result,
+  metadata: {
+    timestamp: new Date().toISOString(),
+    totalProducts: result.products.length,
+    gpuCount: result.products.filter(p => p.category === 'GPU').length,
+    cpuCount: result.products.filter(p => p.category === 'CPU').length,
+    stores: [...new Set(result.products.map(p => p.store))],
+    aiInsights: marketTrends ?? null,
+  }
+});
+
+const generateFilename = (): string => 
+  `electronics_scrape_${new Date().toISOString().split('T')[0]}.json`;
+
 const saveResults = async (result: ScrapingResult, marketTrends?: any): Promise<void> => {
   saveProducts(result.products);
   
-  const fs = await import('fs').then(m => m.promises);
-  const filename = `electronics_scrape_${new Date().toISOString().split('T')[0]}.json`;
-  
-  const enrichedData = {
-    ...result,
-    metadata: {
-      timestamp: new Date().toISOString(),
-      totalProducts: result.products.length,
-      gpuCount: result.products.filter(p => p.category === 'GPU').length,
-      cpuCount: result.products.filter(p => p.category === 'CPU').length,
-      stores: [...new Set(result.products.map(p => p.store))],
-      aiInsights: marketTrends || null,
-    }
-  };
+  const filename = generateFilename();
+  const enrichedData = createEnrichedData(result, marketTrends);
   
   await fs.writeFile(filename, JSON.stringify(enrichedData, null, 2));
   console.log(`\n💾 Results saved to ${filename}`);
@@ -65,8 +69,8 @@ const saveResults = async (result: ScrapingResult, marketTrends?: any): Promise<
 const processResultsWithAI = async (result: ScrapingResult): Promise<void> => {
   const storageAgent = new AIStorageAgent();
   
-  const deduplicatedProducts = [] as Item[] // await storageAgent.deduplicateProducts(result.products);
-  const marketTrends = await storageAgent.analyzeMarketTrends(result.products);
+  const deduplicatedProducts = await storageAgent.deduplicateProducts(result.products);
+  const marketTrends = await storageAgent.analyzeMarketTrends(deduplicatedProducts);
   
   await storageAgent.logMarketTrends(marketTrends);
   

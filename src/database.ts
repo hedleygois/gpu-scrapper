@@ -1,43 +1,52 @@
 import Database from 'better-sqlite3';
 import { Item } from './types.js';
 
-const db = new Database('./data/db.sqlite');
+type DatabaseConnection = Database.Database;
 
-const getOrCreateStore = (storeName: string): number => {
-  const findStmt = db.prepare('SELECT id FROM store WHERE name = ?');
-  const existing = findStmt.get(storeName) as { id: number } | undefined;
-  
-  if (existing) {
-    return existing.id;
-  }
-  
-  const insertStmt = db.prepare('INSERT INTO store (name) VALUES (?)');
-  const result = insertStmt.run(storeName);
+const createDatabaseConnection = (): DatabaseConnection => 
+  new Database('./data/db.sqlite');
+
+const findStoreId = (db: DatabaseConnection, storeName: string): number | undefined => {
+  const stmt = db.prepare('SELECT id FROM store WHERE name = ?');
+  const result = stmt.get(storeName) as { id: number } | undefined;
+  return result?.id;
+};
+
+const insertStore = (db: DatabaseConnection, storeName: string): number => {
+  const stmt = db.prepare('INSERT INTO store (name) VALUES (?)');
+  const result = stmt.run(storeName);
   return result.lastInsertRowid as number;
 };
 
-const getOrCreateItem = (product: Item, storeId: number): number => {
-  const findStmt = db.prepare(`
+const getOrCreateStoreId = (db: DatabaseConnection, storeName: string): number => {
+  const existingId = findStoreId(db, storeName);
+  return existingId ?? insertStore(db, storeName);
+};
+
+const findItemId = (db: DatabaseConnection, product: Item, storeId: number): number | undefined => {
+  const stmt = db.prepare(`
     SELECT id FROM item 
     WHERE name = ? AND store_id = ? AND item_type = ?
   `);
-  const existing = findStmt.get(product.name, storeId, product.category) as { id: number } | undefined;
-  
-  if (existing) {
-    const updateStmt = db.prepare(`
-      UPDATE item 
-      SET price = ?, url = ? 
-      WHERE id = ?
-    `);
-    updateStmt.run(product.price, product.url, existing.id);
-    return existing.id;
-  }
-  
-  const insertStmt = db.prepare(`
+  const result = stmt.get(product.name, storeId, product.category) as { id: number } | undefined;
+  return result?.id;
+};
+
+const updateItem = (db: DatabaseConnection, product: Item, itemId: number): void => {
+  const stmt = db.prepare(`
+    UPDATE item 
+    SET price = ?, url = ? 
+    WHERE id = ?
+  `);
+  stmt.run(product.price, product.url, itemId);
+};
+
+const insertItem = (db: DatabaseConnection, product: Item, storeId: number): number => {
+  const stmt = db.prepare(`
     INSERT INTO item (price, name, url, store_id, item_type) 
     VALUES (?, ?, ?, ?, ?)
   `);
-  const result = insertStmt.run(
+  const result = stmt.run(
     product.price,
     product.name,
     product.url,
@@ -47,30 +56,47 @@ const getOrCreateItem = (product: Item, storeId: number): number => {
   return result.lastInsertRowid as number;
 };
 
-const saveProducts = (products: Item[]): void => {
-  const scrapeStmt = db.prepare('INSERT INTO scrape (timestamp) VALUES (?)');
-  const scrapeResult = scrapeStmt.run(new Date().toISOString());
-  const scrapeId = scrapeResult.lastInsertRowid as number;
+const getOrCreateItemId = (db: DatabaseConnection, product: Item, storeId: number): number => {
+  const existingId = findItemId(db, product, storeId);
+  if (existingId) {
+    updateItem(db, product, existingId);
+    return existingId;
+  }
+  return insertItem(db, product, storeId);
+};
+
+const createScrapeRecord = (db: DatabaseConnection): number => {
+  const stmt = db.prepare('INSERT INTO scrape (timestamp) VALUES (?)');
+  const result = stmt.run(new Date().toISOString());
+  return result.lastInsertRowid as number;
+};
+
+const linkItemToScrape = (db: DatabaseConnection, scrapeId: number, itemId: number): void => {
+  const stmt = db.prepare(`
+    INSERT OR IGNORE INTO scrape_item (scrape_id, item_id) 
+    VALUES (?, ?)
+  `);
+  stmt.run(scrapeId, itemId);
+};
+
+const processProduct = (db: DatabaseConnection, product: Item, scrapeId: number): void => {
+  const storeId = getOrCreateStoreId(db, product.store);
+  const itemId = getOrCreateItemId(db, product, storeId);
+  linkItemToScrape(db, scrapeId, itemId);
+};
+
+const saveProductsToDatabase = (db: DatabaseConnection, products: readonly Item[]): number => {
+  const scrapeId = createScrapeRecord(db);
   
-  const transaction = db.transaction((products: Item[]) => {
-    for (const product of products) {
-      const storeId = getOrCreateStore(product.store);
-      
-      const itemId = getOrCreateItem(product, storeId);
-      
-      const linkStmt = db.prepare(`
-        INSERT OR IGNORE INTO scrape_item (scrape_id, item_id) 
-        VALUES (?, ?)
-      `);
-      linkStmt.run(scrapeId, itemId);
-    }
+  const transaction = db.transaction((products: readonly Item[]) => {
+    products.forEach(product => processProduct(db, product, scrapeId));
   });
 
   transaction(products);
-  console.log(`💾 Saved ${products.length} products to database (scrape_id: ${scrapeId})`);
+  return scrapeId;
 };
 
-const getLatestProducts = (limit: number = 50): Item[] => {
+const queryLatestProducts = (db: DatabaseConnection, limit: number): readonly Item[] => {
   const stmt = db.prepare(`
     SELECT i.name, i.price, i.url, s.name as store, i.item_type as category
     FROM item i
@@ -96,7 +122,7 @@ const getLatestProducts = (limit: number = 50): Item[] => {
   }));
 };
 
-const getProductsByCategory = (category: 'GPU' | 'CPU', limit: number = 50): Item[] => {
+const queryProductsByCategory = (db: DatabaseConnection, category: 'GPU' | 'CPU', limit: number): readonly Item[] => {
   const stmt = db.prepare(`
     SELECT i.name, i.price, i.url, s.name as store, i.item_type as category
     FROM item i
@@ -123,7 +149,7 @@ const getProductsByCategory = (category: 'GPU' | 'CPU', limit: number = 50): Ite
   }));
 };
 
-const getProductsByStore = (store: string, limit: number = 50): Item[] => {
+const queryProductsByStore = (db: DatabaseConnection, store: string, limit: number): readonly Item[] => {
   const stmt = db.prepare(`
     SELECT i.name, i.price, i.url, s.name as store, i.item_type as category
     FROM item i
@@ -150,7 +176,7 @@ const getProductsByStore = (store: string, limit: number = 50): Item[] => {
   }));
 };
 
-const getProductStats = (): { total: number; gpu: number; cpu: number; stores: string[] } => {
+const queryProductStats = (db: DatabaseConnection): { readonly total: number; readonly gpu: number; readonly cpu: number; readonly stores: readonly string[] } => {
   const totalStmt = db.prepare('SELECT COUNT(*) as count FROM item');
   const categoryStmt = db.prepare(`
     SELECT item_type, COUNT(*) as count 
@@ -167,8 +193,8 @@ const getProductStats = (): { total: number; gpu: number; cpu: number; stores: s
   const categories = categoryStmt.all() as Array<{ item_type: string; count: number }>;
   const stores = storesStmt.all() as Array<{ name: string }>;
 
-  const gpu = categories.find(c => c.item_type === 'GPU')?.count || 0;
-  const cpu = categories.find(c => c.item_type === 'CPU')?.count || 0;
+  const gpu = categories.find(c => c.item_type === 'GPU')?.count ?? 0;
+  const cpu = categories.find(c => c.item_type === 'CPU')?.count ?? 0;
 
   return {
     total: total.count,
@@ -178,10 +204,22 @@ const getProductStats = (): { total: number; gpu: number; cpu: number; stores: s
   };
 };
 
-export {
-  saveProducts,
-  getLatestProducts,
-  getProductsByCategory,
-  getProductsByStore,
-  getProductStats
-}; 
+const db = createDatabaseConnection();
+
+export const saveProducts = (products: readonly Item[]): number => {
+  const scrapeId = saveProductsToDatabase(db, products);
+  console.log(`💾 Saved ${products.length} products to database (scrape_id: ${scrapeId})`);
+  return scrapeId;
+};
+
+export const getLatestProducts = (limit: number = 50): readonly Item[] => 
+  queryLatestProducts(db, limit);
+
+export const getProductsByCategory = (category: 'GPU' | 'CPU', limit: number = 50): readonly Item[] => 
+  queryProductsByCategory(db, category, limit);
+
+export const getProductsByStore = (store: string, limit: number = 50): readonly Item[] => 
+  queryProductsByStore(db, store, limit);
+
+export const getProductStats = (): { readonly total: number; readonly gpu: number; readonly cpu: number; readonly stores: readonly string[] } => 
+  queryProductStats(db); 

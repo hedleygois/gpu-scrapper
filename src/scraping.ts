@@ -3,7 +3,7 @@ import { JSDOM } from "jsdom";
 import { chromium } from "playwright";
 import { Item, ScrapingResult } from './types.js';
 
-const GPU_KEYWORDS = [
+const GPU_KEYWORDS: readonly string[] = [
   "7700xt",
   "7900xt",
   "7900xtx",
@@ -17,48 +17,48 @@ const GPU_KEYWORDS = [
   "5080",
   "4070 ti super",
   "GeForce",
-];
+] as const;
 
-const CPU_KEYWORDS = ["ryzen 7", "ryzen 9", "ryzen 5"];
+const CPU_KEYWORDS: readonly string[] = ["ryzen 7", "ryzen 9", "ryzen 5"] as const;
 
-const PRODUCT_SELECTORS = [
+const PRODUCT_SELECTORS: readonly string[] = [
   ".prdContainer",
   ".product-grid__card",
   ".productBox",
   ".product-item",
-];
+] as const;
 
-const NAME_SELECTORS = [
+const NAME_SELECTORS: readonly string[] = [
   ".prdTitle",
   ".product-card__title",
   ".product-name",
   ".product-item-link",
-];
+] as const;
 
-const PRICE_SELECTORS = [".prsEuro", ".js-sales-price-wrapper", ".price"];
+const PRICE_SELECTORS: readonly string[] = [".prsEuro", ".js-sales-price-wrapper", ".price"] as const;
 
-export const delay = (ms: number): Promise<void> =>
+const delay = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
-export const isGPU = (productName: string): boolean => {
+const isGPU = (productName: string): boolean => {
   const name = productName.replace(/\s+/g, "").toLowerCase();
   return GPU_KEYWORDS.some((keyword) => name.includes(keyword.toLowerCase()));
 };
 
-export const isCPU = (productName: string): boolean => {
+const isCPU = (productName: string): boolean => {
   const name = productName.replace(/\s+/g, "").toLowerCase();
   return CPU_KEYWORDS.some((keyword) => name.includes(keyword.toLowerCase()));
 };
 
-export const extractProductName = (element: Element, nameSelectors: string[]): string => {
+const extractProductName = (element: Element, nameSelectors: readonly string[]): string => {
   return (
     nameSelectors
-      .map((selector) => element.querySelector(selector)?.textContent?.trim() || "")
-      .find((name) => !!name) || ""
+      .map((selector) => element.querySelector(selector)?.textContent?.trim() ?? "")
+      .find((name) => !!name) ?? ""
   );
 };
 
-export const extractProductPrice = (element: Element, priceSelectors: string[]): number => {
+const extractProductPrice = (element: Element, priceSelectors: readonly string[]): number => {
   return (
     priceSelectors
       .map((selector) => {
@@ -68,16 +68,16 @@ export const extractProductPrice = (element: Element, priceSelectors: string[]):
             ?.replace(/[^\d,.]/g, "")
             .replace(/\./g, "")
             .replace(",", ".")
-            .trim() || "";
+            .trim() ?? "";
           return priceText ? parseFloat(priceText) : -1;
         }
         return -1;
       })
-      .find((price) => price > 0) || -1
+      .find((price) => price > 0) ?? -1
   );
 };
 
-export const extractProductUrl = (element: Element, storeBaseUrl: string): string => {
+const extractProductUrl = (element: Element, storeBaseUrl: string): string => {
   const linkHref = [
     ...element.querySelectorAll("a[href]")
   ]
@@ -92,12 +92,12 @@ export const extractProductUrl = (element: Element, storeBaseUrl: string): strin
   return "";
 };
 
-export const extractSingleProduct = (
+const extractSingleProduct = (
   element: Element,
   storeName: string,
   storeBaseUrl: string,
-  nameSelectors: string[],
-  priceSelectors: string[]
+  nameSelectors: readonly string[],
+  priceSelectors: readonly string[]
 ): Item | null => {
   const name = extractProductName(element, nameSelectors);
   const price = extractProductPrice(element, priceSelectors);
@@ -118,11 +118,11 @@ export const extractSingleProduct = (
   };
 };
 
-export const extractProducts = (
+const extractProducts = (
   document: Document,
   storeName: string,
   storeBaseUrl: string
-): Item[] => {
+): readonly Item[] => {
   const products: Item[] = [];
 
   for (const productSelector of PRODUCT_SELECTORS) {
@@ -150,10 +150,10 @@ export const extractProducts = (
   );
 };
 
-export const scrapeStoreWithBrowser = async (
-  store: { name: string; baseUrl: string; searchPath: string; searchParam: string },
+const scrapeStoreWithBrowser = async (
+  store: { readonly name: string; readonly baseUrl: string; readonly searchPath: string; readonly searchParam: string },
   searchTerm: string
-): Promise<Item[]> => {
+): Promise<readonly Item[]> => {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage();
 
@@ -161,20 +161,15 @@ export const scrapeStoreWithBrowser = async (
     console.log(`🌐 Opening ${store.baseUrl} for ${store.name}...`);
     await page.goto(store.baseUrl);
 
-  
     await page.waitForSelector("#searchFieldInputField", { timeout: 10000 });
 
-  
     await page.fill("#searchFieldInputField", "");
     await page.fill("#searchFieldInputField", searchTerm);
 
-  
     await page.press("#searchFieldInputField", "Enter");
 
-  
     await page.waitForLoadState("networkidle");
 
-  
     const html = await page.content();
     const dom = new JSDOM(html);
     const document = dom.window.document;
@@ -185,10 +180,10 @@ export const scrapeStoreWithBrowser = async (
   }
 };
 
-export const scrapeStoreWithFetch = async (
-  store: { name: string; baseUrl: string; searchPath: string; searchParam: string },
+const scrapeStoreWithFetch = async (
+  store: { readonly name: string; readonly baseUrl: string; readonly searchPath: string; readonly searchParam: string },
   searchTerm: string
-): Promise<Item[]> => {
+): Promise<readonly Item[]> => {
   const searchUrl = `${store.baseUrl}${store.searchPath}?${
     store.searchParam
   }=${encodeURIComponent(searchTerm)}`;
@@ -211,10 +206,10 @@ export const scrapeStoreWithFetch = async (
   return extractProducts(document, store.name, store.baseUrl);
 };
 
-export const scrapeStore = async (
-  store: { name: string; baseUrl: string; searchPath: string; searchParam: string; requiresBrowser: boolean },
+const scrapeStore = async (
+  store: { readonly name: string; readonly baseUrl: string; readonly searchPath: string; readonly searchParam: string; readonly requiresBrowser: boolean },
   searchTerm: string
-): Promise<Item[]> => {
+): Promise<readonly Item[]> => {
   try {
     if (store.requiresBrowser) {
       return await scrapeStoreWithBrowser(store, searchTerm);
@@ -227,9 +222,9 @@ export const scrapeStore = async (
   }
 };
 
-export const scrapeAllStores = async (
-  stores: Array<{ name: string; baseUrl: string; searchPath: string; searchParam: string; requiresBrowser: boolean }>,
-  searchTerms: string[]
+const scrapeAllStores = async (
+  stores: readonly { readonly name: string; readonly baseUrl: string; readonly searchPath: string; readonly searchParam: string; readonly requiresBrowser: boolean }[],
+  searchTerms: readonly string[]
 ): Promise<ScrapingResult> => {
   const products: Item[] = [];
   const errors: string[] = [];
@@ -265,4 +260,19 @@ export const scrapeAllStores = async (
     products: uniqueProducts,
     errors,
   };
+};
+
+export {
+  delay,
+  isGPU,
+  isCPU,
+  extractProductName,
+  extractProductPrice,
+  extractProductUrl,
+  extractSingleProduct,
+  extractProducts,
+  scrapeStoreWithBrowser,
+  scrapeStoreWithFetch,
+  scrapeStore,
+  scrapeAllStores
 }; 
