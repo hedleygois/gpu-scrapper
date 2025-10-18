@@ -41,7 +41,7 @@ const formatResults = (result: ScrapingResult): void => {
   }
 };
 
-const createEnrichedData = (result: ScrapingResult, marketTrends?: any) => ({
+const createEnrichedData = (result: ScrapingResult) => ({
   ...result,
   metadata: {
     timestamp: new Date().toISOString(),
@@ -49,18 +49,17 @@ const createEnrichedData = (result: ScrapingResult, marketTrends?: any) => ({
     gpuCount: result.products.filter(p => p.category === 'GPU').length,
     cpuCount: result.products.filter(p => p.category === 'CPU').length,
     stores: [...new Set(result.products.map(p => p.store))],
-    aiInsights: marketTrends ?? null,
   }
 });
 
 const generateFilename = (): string => 
   `electronics_scrape_${new Date().toISOString().split('T')[0]}.json`;
 
-const saveResults = async (result: ScrapingResult, marketTrends?: any): Promise<void> => {
+const saveResults = async (result: ScrapingResult): Promise<void> => {
   saveProducts(result.products);
   
   const filename = generateFilename();
-  const enrichedData = createEnrichedData(result, marketTrends);
+  const enrichedData = createEnrichedData(result);
   
   await fs.writeFile(filename, JSON.stringify(enrichedData, null, 2));
   console.log(`\n💾 Results saved to ${filename}`);
@@ -70,19 +69,13 @@ const processResultsWithAI = async (result: ScrapingResult): Promise<void> => {
   const storageAgent = new AIStorageAgent();
   
   const deduplicatedProducts = await storageAgent.deduplicateProducts(result.products);
-  const marketTrends = await storageAgent.analyzeMarketTrends(deduplicatedProducts);
-  
-  await storageAgent.logMarketTrends(marketTrends);
-  
-  console.log('\n🤖 AI Market Trends Analysis:');
-  console.log(JSON.stringify(marketTrends, null, 2));
   
   const deduplicatedResult = {
     products: deduplicatedProducts,
     errors: result.errors
   };
   
-  await saveResults(deduplicatedResult, marketTrends);
+  await saveResults(deduplicatedResult);
   
   await storageAgent.formatResults(deduplicatedResult);
 };
