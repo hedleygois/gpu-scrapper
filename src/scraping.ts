@@ -19,7 +19,7 @@ const GPU_KEYWORDS: readonly string[] = [
   "GeForce",
 ] as const;
 
-const CPU_KEYWORDS: readonly string[] = ["ryzen 7", "ryzen 9", "ryzen 5"] as const;
+const CPU_KEYWORDS: readonly string[] = ["ryzen 7", "ryzen 9", "ryzen 5", "core2duo"] as const;
 
 const PRODUCT_SELECTORS: readonly string[] = [
   ".prdContainer",
@@ -275,4 +275,4 @@ export {
   scrapeStoreWithFetch,
   scrapeStore,
   scrapeAllStores
-}; 
+};
