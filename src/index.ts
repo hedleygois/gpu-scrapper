@@ -1,8 +1,9 @@
-import { saveProducts } from './database.js';
 import { scrapeAllStores } from './scraping.js';
 import { STORES, SEARCH_TERMS } from './config/stores.js';
 import { AIStorageAgent } from './agents/ai-storage-agent.js';
 import { ScrapingResult } from './types.js';
+import { McpClient } from './mcp-client.js';
+import { transformScrapingResultToMcp, validateMcpData, createDataDescription } from './mcp-data-transformer.js';
 import fs from 'fs/promises';
 
 const formatResults = (result: ScrapingResult): void => {
@@ -55,14 +56,77 @@ const createEnrichedData = (result: ScrapingResult) => ({
 const generateFilename = (): string => 
   `electronics_scrape_${new Date().toISOString().split('T')[0]}.json`;
 
-const saveResults = async (result: ScrapingResult): Promise<void> => {
-  saveProducts(result.products);
+const saveResultsWithMcp = async (result: ScrapingResult): Promise<void> => {
+  const mcpClient = new McpClient();
+  const storageAgent = new AIStorageAgent();
   
+  try {
+    console.log('🔌 Connecting to MCP server...');
+    await mcpClient.connect();
+    
+    console.log('🔍 Discovering available MCP tools...');
+    const availableTools = await mcpClient.listTools();
+    
+    if (availableTools.length === 0) {
+      throw new Error('No MCP tools available');
+    }
+    
+    const dataDescription = createDataDescription(result);
+    console.log('🤖 Selecting best MCP tool for data writing...');
+    const { tool, reasoning, confidence } = await storageAgent.selectBestMcpTool(availableTools, dataDescription);
+    
+    console.log(`🎯 Selected tool: ${tool.name} (confidence: ${confidence})`);
+    console.log(`💭 Reasoning: ${reasoning}`);
+    
+    console.log('🔄 Transforming data to MCP format...');
+    const mcpData = transformScrapingResultToMcp(result);
+    
+    console.log('✅ Validating MCP data...');
+    const validation = validateMcpData(mcpData);
+    if (!validation.isValid) {
+      throw new Error(`MCP data validation failed: ${validation.errors.join(', ')}`);
+    }
+    
+    console.log('💾 Saving data via MCP...');
+    const saveResult = await mcpClient.callTool(tool.name, mcpData);
+    console.log(`✅ Data saved successfully via MCP tool: ${tool.name}`);
+    console.log(`📊 MCP Response:`, saveResult);
+    
+  } catch (error) {
+    console.error('❌ MCP save failed:', error);
+    
+    // Try AI-powered error analysis and recovery
+    try {
+      const errorAnalysis = await storageAgent.analyzeMcpError(error, 'unknown');
+      console.log(`🔍 Error Analysis: ${errorAnalysis.reasoning}`);
+      
+      if (errorAnalysis.isRecoverable && errorAnalysis.action === 'retry') {
+        console.log(`🔄 Retrying in ${errorAnalysis.retryDelay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, errorAnalysis.retryDelay));
+        return await saveResultsWithMcp(result);
+      } else if (errorAnalysis.isFatal) {
+        console.error('💀 Fatal error detected, cannot recover');
+        throw new Error(`Fatal MCP error: ${errorAnalysis.reasoning}`);
+      }
+    } catch (analysisError) {
+      console.error('❌ Error analysis failed:', analysisError);
+    }
+    
+    // Fallback to file save
+    console.log('🔄 Falling back to file save...');
+    await saveResultsToFile(result);
+    throw error;
+  } finally {
+    await mcpClient.disconnect();
+  }
+};
+
+const saveResultsToFile = async (result: ScrapingResult): Promise<void> => {
   const filename = generateFilename();
   const enrichedData = createEnrichedData(result);
   
   await fs.writeFile(filename, JSON.stringify(enrichedData, null, 2));
-  console.log(`\n💾 Results saved to ${filename}`);
+  console.log(`\n💾 Results saved to ${filename} (fallback)`);
 };
 
 const processResultsWithAI = async (result: ScrapingResult): Promise<void> => {
@@ -75,7 +139,7 @@ const processResultsWithAI = async (result: ScrapingResult): Promise<void> => {
     errors: result.errors
   };
   
-  await saveResults(deduplicatedResult);
+  await saveResultsWithMcp(deduplicatedResult);
   
   await storageAgent.formatResults(deduplicatedResult);
 };
@@ -99,7 +163,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 
 export { 
   formatResults, 
-  saveResults, 
+  saveResultsWithMcp, 
+  saveResultsToFile,
   processResultsWithAI,
   main 
 };
