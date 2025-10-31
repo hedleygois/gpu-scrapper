@@ -212,7 +212,7 @@ const selectBestTool = async (
     console.warn('🔄 Falling back to first available tool');
     
     return {
-      tool: tools[0],
+      tool: tools[0]!,
       reasoning: 'Fallback selection due to AI error',
       confidence: 0.5
     };
