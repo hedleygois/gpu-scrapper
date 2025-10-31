@@ -48,9 +48,9 @@ export class McpClient extends EventEmitter {
 
   constructor(options: McpConnectionOptions = {}) {
     super();
-    this.url = options.url ?? 'ws://localhost:8081';
+    this.url = process.env.MCP_SERVER_URL ?? 'ws://localhost:8081/ws';
     this.timeout = options.timeout ?? 30000;
-    this.retryAttempts = options.retryAttempts ?? 3;
+    this.retryAttempts = options.retryAttempts ?? 1;
     this.retryDelay = options.retryDelay ?? 1000;
   }
 
@@ -77,7 +77,7 @@ export class McpClient extends EventEmitter {
             this.handleMessage(data);
           });
 
-          this.ws.on('error', (error: Error) => {
+          this.ws.on('error', (error: Error & { code?: string }) => {
             console.error('❌ MCP WebSocket error:', error);
             this.emit('error', error);
             
@@ -85,7 +85,10 @@ export class McpClient extends EventEmitter {
               console.log(`🔄 Retrying connection in ${this.retryDelay}ms...`);
               setTimeout(() => connectWithRetry(attempt + 1), this.retryDelay);
             } else {
-              reject(new Error(`Failed to connect to MCP server after ${this.retryAttempts} attempts: ${error.message}`));
+              const errorMsg = error.code === 'ECONNREFUSED' 
+                ? `Failed to connect to MCP server at ${this.url}. Make sure the MCP server is running and accessible. ${error.message}`
+                : `Failed to connect to MCP server after ${this.retryAttempts} attempts: ${error.message}`;
+              reject(new Error(errorMsg));
             }
           });
 
