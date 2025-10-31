@@ -1,59 +1,28 @@
+import { Store } from './config/stores.js';
 import { Item, ScrapingResult } from './types.js';
 
 export interface McpScrapeData {
   readonly scrape: {
-    readonly id?: number;
     readonly timestamp: string;
     readonly items: readonly McpItem[];
   };
 }
 
 export interface McpItem {
-  readonly id?: number;
   readonly price: number;
   readonly name: string;
   readonly url: string;
   readonly item_type: 'GPU' | 'CPU';
-  readonly store: {
-    readonly id?: number;
-    readonly name: string;
-  };
+  readonly store: string;
 }
 
-export interface McpStore {
-  readonly id?: number;
-  readonly name: string;
-}
-
-const createStoreMap = (products: readonly Item[]): Map<string, McpStore> => {
-  const storeMap = new Map<string, McpStore>();
-  const uniqueStores = [...new Set(products.map(p => p.store))];
-  
-  uniqueStores.forEach((storeName, index) => {
-    storeMap.set(storeName, {
-      id: index + 1, // Simple ID assignment
-      name: storeName
-    });
-  });
-  
-  return storeMap;
-};
-
-const transformItemToMcp = (item: Item, storeMap: Map<string, McpStore>): McpItem => {
-  const store = storeMap.get(item.store);
-  if (!store) {
-    throw new Error(`Store '${item.store}' not found in store map`);
-  }
-
+const transformItemToMcp = (item: Item): McpItem => {
   return {
     price: item.price,
     name: item.name,
     url: item.url,
     item_type: item.category,
-    store: {
-      id: store.id,
-      name: store.name
-    }
+    store: item.store
   };
 };
 
@@ -68,11 +37,8 @@ const createMetadata = (result: ScrapingResult) => ({
 
 export const transformScrapingResultToMcp = (result: ScrapingResult): McpScrapeData => {
   console.log('🔄 Transforming scraped data to MCP format...');
-  
-  const storeMap = createStoreMap(result.products);
-  console.log(`📊 Created store map with ${storeMap.size} unique stores`);
-  
-  const mcpItems = result.products.map(item => transformItemToMcp(item, storeMap));
+
+  const mcpItems = result.products.map(transformItemToMcp);
   console.log(`📦 Transformed ${mcpItems.length} items to MCP format`);
   
   const metadata = createMetadata(result);
